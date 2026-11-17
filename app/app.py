@@ -73,11 +73,18 @@ def score(flows: pd.DataFrame, model, feats):
         X[f] = pd.to_numeric(df[f], errors="coerce") if f in df else 0.0
     X = X.replace([np.inf, -np.inf], 0.0).fillna(0.0)
     pred = model.predict(X)
+
+    def col(*names):
+        for n in names:
+            if n in df:
+                return df[n]
+        return ""
+
     out = pd.DataFrame({
-        "Time": df.get("timestamp", ""),
-        "Source": df.get("src_ip", ""),
-        "Destination": df.get("dst_ip", ""),
-        "Port": df.get("destination_port", ""),
+        "Time": col("timestamp"),
+        "Source": col("src_ip", "source_ip"),
+        "Destination": col("dst_ip", "destination_ip"),
+        "Port": col("destination_port"),
         "Verdict": ["Attack" if int(p) == 1 else "Normal" for p in pred],
     })
     return out
