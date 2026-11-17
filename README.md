@@ -9,7 +9,8 @@ or **attack** using a gradient-boosted model (XGBoost) trained on CIC-IDS2017.
 |---|---|
 | `pipeline/` | The complete detector — CICFlowMeter extractor + trained model + scoring. One command: `./run.sh capture.pcap out.csv` |
 | `results/`  | Evaluation findings (`RESULTS.md`) and a visual dashboard (`flowguard_results.html`) |
-| `dashboard/`| Live monitoring UI (Streamlit) that displays the detector's predictions |
+| `app/`      | **Upload-and-detect UI** — drop in a pcap or flows CSV, get per-flow verdicts |
+| `dashboard/`| Live monitoring UI (Streamlit) that displays streaming predictions |
 
 ## How it works
 ```
