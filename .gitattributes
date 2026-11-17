@@ -1,0 +1,7 @@
+*.jar binary
+*.so binary
+*.joblib binary
+*.ubj binary
+*.pcap binary
+*.pcapng binary
+*.json -text

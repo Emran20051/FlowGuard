@@ -14,7 +14,7 @@ import pandas as pd
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parent.parent          # repo root
-MODEL = ROOT / "pipeline" / "model" / "flowguard_xgb.joblib"
+MODEL = ROOT / "pipeline" / "model" / "flowguard_xgb.json"   # native format (portable, git-safe)
 META = ROOT / "pipeline" / "model" / "flowguard_meta.json"
 CFM = ROOT / "pipeline" / "extractor" / "cfm.sh"
 
@@ -44,8 +44,10 @@ h1,h2,h3,p,label,span,div{color:#eef0f4}
 
 @st.cache_resource
 def load_model():
-    import joblib
-    return joblib.load(MODEL), json.load(open(META))["features"]
+    import xgboost as xgb
+    clf = xgb.XGBClassifier()
+    clf.load_model(str(MODEL))
+    return clf, json.load(open(META))["features"]
 
 
 def extract_pcap(pcap_bytes: bytes, name: str) -> pd.DataFrame:

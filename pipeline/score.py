@@ -1,9 +1,9 @@
 """Score a CICFlowMeter flow CSV with the FlowGuard model.
 Usage: python score.py <flows.csv> <model.joblib> <meta.json> <out.csv>"""
-import sys, json, numpy as np, pandas as pd, joblib
+import sys, json, numpy as np, pandas as pd, xgboost as xgb
 flows_csv, model_path, meta_path, out_csv = sys.argv[1:5]
 FEATS = json.load(open(meta_path))['features']
-model = joblib.load(model_path)
+model = xgb.XGBClassifier(); model.load_model(model_path)
 # CICFlowMeter V3 column names -> model (CIC-IDS2017) names
 V3 = {'dst_port':'destination_port','total_fwd_packet':'total_fwd_packets','total_bwd_packets':'total_backward_packets',
 'total_length_of_fwd_packet':'total_length_of_fwd_packets','total_length_of_bwd_packet':'total_length_of_bwd_packets',
